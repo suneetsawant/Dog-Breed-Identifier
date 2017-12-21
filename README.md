@@ -7,7 +7,7 @@ __python main.py --train train/ --test test/ --iter 50__
 
 __Options__  
 --train = path to training images  
---test = path to test images  
---iter = Number of iterations for training  
---lr = Learning rate of optimizer  
---eps = epsilon for optimizer
+--test  = path to test images  
+--iter  = Number of iterations for training  
+--lr    = Learning rate of optimizer  
+--eps   = epsilon for optimizer
