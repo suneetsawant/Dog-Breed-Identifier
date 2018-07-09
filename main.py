@@ -20,6 +20,12 @@ parser.add_argument(
     help=' Path to Test  Images')
 
 parser.add_argument(
+	'--training',  
+	type= int  ,
+	default= 1, 
+    help=' Training to be done ')
+
+parser.add_argument(
 	'--iter',  
 	type=int,
 	default='20000', 
@@ -55,6 +61,7 @@ model_path = 'Model/'
 iterations = args.iter
 learning_rate = args.lr
 epsilon = args.eps
+train = args.training
 
 print('******************** LOADING IMAGES AND CREATING FEATURES ********************')
 print('')
@@ -98,7 +105,7 @@ data = DataGenerator(batch_size,train_feature_path,True).generate(df,train_ids)
 
 print('')
 print("******************** TRAINING MODEL ON IMAGES IN /"+ train_image_path+' *********************')
-Train(df,model_path,data,batch_size,iterations,learning_rate,epsilon)
+if(train == 1) :Train(df,model_path,data,batch_size,iterations,learning_rate,epsilon)
 
 ## Test the model one image at a time
 test_ids = []

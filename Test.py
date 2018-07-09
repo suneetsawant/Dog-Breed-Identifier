@@ -9,13 +9,12 @@ from matplotlib.pyplot import imshow
 from scipy.misc import imread,imsave
 from PIL import Image
 from keras.preprocessing import image
-
+import cv2 
 
 
 def Test(df,model_path,data_generator,batch_size,test_ids):
     tf.reset_default_graph()
     
-
     x_dim = 7*7*512
 
 ## Redefine the Graph  with final softmax layer 
@@ -36,6 +35,8 @@ def Test(df,model_path,data_generator,batch_size,test_ids):
     labels = df.columns
     out = pd.DataFrame(columns=labels)
     out['id'] = test_ids
+## Delete the breed column
+    del out['breed']
 
 
 ## Run the model on test images 
@@ -46,11 +47,30 @@ def Test(df,model_path,data_generator,batch_size,test_ids):
         for i in range(1,len(test_ids)):
             x_batch,Id = next(data_generator)
             out.loc[out['id']==Id[0],'affenpinscher':] = pred.eval(feed_dict={X:x_batch})
-            #if i%1000==0: print(i,)
+            breed_index = out.loc[out['id']==Id[0],'affenpinscher':].values.argmax(axis=1)+2
+            breed = df.columns.values[breed_index]
+            #print(df.columns.values.size,df.columns.values[breed+2])
+            print('test/'+Id[0]+'.jpg')
+            img = cv2.imread('test/'+Id[0]+'.jpg')
+            
+            font                   = cv2.FONT_HERSHEY_SIMPLEX
+            bottomLeftCornerOfText = (60,200)
+            fontScale              = 0.9
+            fontColor              = (0,255,0)
+            lineType               = 2
 
+            cv2.putText(img,breed[0], 
+                bottomLeftCornerOfText, 
+                font, 
+                fontScale,
+                fontColor,
+                lineType)
 
-## Delete the breed column
-    del out['breed']
+            #cv2.imshow(Id[0],img)
+            cv2.imwrite('output/'+Id[0]+'.jpg',img)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+
 
 
 ## Save the result file
