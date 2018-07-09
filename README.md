@@ -6,7 +6,7 @@ This is an implemetation of image classifier to identify dog breeds using kaggle
 
 
 ## Usage 
-__python main.py --train train/ --test test/ --iter 50__
+__python main.py --train train/ --test test/ --iter 50__ --training 1
 
 __Options__  
 --train = path to training images  
@@ -14,5 +14,6 @@ __Options__
 --iter  = Number of iterations for training  
 --lr    = Learning rate of optimizer  
 --eps   = epsilon for optimizer
+--training = set to 1 for Training else to 0 for inference 
 
 The folders train and test contains 50 sample dog images each and are used for sample run. The parameters are actually tuned for full scale dataset and should replace the sample images. 
